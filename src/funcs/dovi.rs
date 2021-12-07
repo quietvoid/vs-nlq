@@ -177,7 +177,7 @@ impl<'core> Filter<'core> for DOVIMap<'core> {
                             dq >> (coeff_log2_denom - 5 - el_bit_depth)
                         };
 
-                        let mut h = (*bl_pixel as i64) << 6;
+                        let mut h = *bl_pixel as i64;
 
                         if !disable_residual_flag {
                             h += result;

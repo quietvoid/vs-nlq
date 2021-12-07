@@ -1,5 +1,5 @@
 [package]
-name = "vs-filters"
+name = "vs-nlq"
 version = "1.0.0"
 authors = ["quietvoid"]
 edition = "2021"

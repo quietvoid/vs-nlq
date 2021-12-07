@@ -4,7 +4,7 @@ from pathlib import Path
 
 bl_path = Path("BL.mkv")
 bl = core.ffms2.Source(bl_path)
-bl = bl.resize.Spline36(format=vs.YUV420P10)
+bl = bl.resize.Spline36(format=vs.YUV420P16)
 
 bl_w = bl.width
 bl_h = bl.height
