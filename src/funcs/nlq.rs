@@ -60,7 +60,7 @@ impl<'core> Filter<'core> for MapNLQ<'core> {
         core: CoreRef<'core>,
         context: FrameContext,
         n: usize,
-    ) -> Result<FrameRef<'core>, Error> { 
+    ) -> Result<FrameRef<'core>, Error> {
         let bl_frame = self
             .bl
             .get_frame_filter(context, n)
@@ -124,8 +124,9 @@ impl<'core> Filter<'core> for MapNLQ<'core> {
             )
             .unwrap();
 
-        let mut new_frame =
-            unsafe { FrameRefMut::new_uninitialized(core, None, new_format, resolution) };
+        let mut new_frame = unsafe {
+            FrameRefMut::new_uninitialized(core, Some(&bl_frame), new_format, resolution)
+        };
 
         let num_pivots = (rpu.header.nlq_num_pivots_minus2.unwrap() + 1) as usize;
         assert!(num_pivots == 1);
@@ -211,8 +212,7 @@ impl<'core> Filter<'core> for MapNLQ<'core> {
                             h += 1 << (15 - out_bit_depth);
                             h >>= 16 - out_bit_depth;
 
-                            h = if h < 0 { 0 } else { h };
-                            h = if h > maxout { maxout } else { h };
+                            h = h.clamp(0, maxout);
 
                             *out_pixel = h as u16;
                         });

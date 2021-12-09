@@ -31,7 +31,7 @@ make_filter_function! {
             let rpu_path = Path::new(std::str::from_utf8(path)?);
 
             let res = parse_rpu_file(rpu_path);
-            
+
             if let Ok(rpus) = res {
                 rpus
             } else {
