@@ -8,8 +8,8 @@ use std::{
 use dolby_vision::rpu::dovi_rpu::DoviRpu;
 use hevc_parser::{HevcParser, NALUStartCode};
 
-mod dovi;
-pub use dovi::DOVIMap;
+mod nlq;
+pub use nlq::MapNLQ;
 
 pub fn parse_rpu_file(input: &Path) -> Result<Option<Vec<DoviRpu>>> {
     let rpu_file = File::open(input)?;
