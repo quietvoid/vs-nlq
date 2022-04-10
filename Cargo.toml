@@ -9,7 +9,7 @@ edition = "2021"
 [dependencies]
 vapoursynth = { version = "0.3.0", features = ["vapoursynth-api-36"] }
 failure = "0.1.8"
-image = "0.23.14"
+image = "0.24.1"
 itertools = "0.10.3"
 dolby_vision = "1.6.3"
 anyhow = "1.0.56"
