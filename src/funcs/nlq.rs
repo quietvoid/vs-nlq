@@ -1,12 +1,12 @@
+use anyhow::{bail, format_err, Error};
 use dolby_vision::rpu::dovi_rpu::DoviRpu;
+use itertools::Itertools;
 use rayon::prelude::*;
 
 use vapoursynth::core::CoreRef;
 use vapoursynth::plugins::*;
 use vapoursynth::prelude::*;
 use vapoursynth::video_info::VideoInfo;
-
-use failure::Error;
 
 pub struct MapNLQ<'core> {
     pub bl: Node<'core>,
@@ -127,6 +127,13 @@ impl<'core> Filter<'core> for MapNLQ<'core> {
         let mut new_frame = unsafe {
             FrameRefMut::new_uninitialized(core, Some(&bl_frame), new_format, resolution)
         };
+
+        if !new_frame.props().keys().contains(&"DolbyVisionRPU") {
+            new_frame.props_mut().set_data(
+                "DolbyVisionRPU",
+                el_frame.props().get_data("DolbyVisionRPU")?,
+            )?;
+        }
 
         let num_pivots = (rpu.header.nlq_num_pivots_minus2.unwrap() + 1) as usize;
         assert!(num_pivots == 1);

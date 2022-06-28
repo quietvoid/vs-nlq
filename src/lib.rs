@@ -1,21 +1,18 @@
 #[macro_use]
 extern crate vapoursynth;
 
-#[macro_use]
-extern crate failure;
-
 use std::path::Path;
 
 use vapoursynth::core::CoreRef;
 use vapoursynth::plugins::*;
 use vapoursynth::prelude::*;
 
-use failure::Error;
+use anyhow::Error;
 
 mod funcs;
 use funcs::*;
 
-const PLUGIN_IDENTIFIER: &str = "com.quietvoid";
+const PLUGIN_IDENTIFIER: &str = "com.vsnlq";
 
 make_filter_function! {
     MapNLQFunction, "MapNLQ"
@@ -30,10 +27,10 @@ make_filter_function! {
         let rpus = if let Some(path) = rpu {
             let rpu_path = Path::new(std::str::from_utf8(path)?);
 
-            let res = parse_rpu_file(rpu_path);
+            let res = dolby_vision::rpu::utils::parse_rpu_file(rpu_path);
 
             if let Ok(rpus) = res {
-                rpus
+                Some(rpus)
             } else {
                 None
             }
@@ -49,7 +46,7 @@ export_vapoursynth_plugin! {
     Metadata {
         identifier: PLUGIN_IDENTIFIER,
         namespace: "vsnlq",
-        name: "test",
+        name: "NLQ mapping plugin",
         read_only: false,
     },
     [
