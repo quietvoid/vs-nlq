@@ -201,11 +201,7 @@ impl<'core> Filter<'core> for MapNLQ<'core> {
 
                                 let rr = fp_in_max << (10 - el_bit_depth + 1);
 
-                                if dq > rr {
-                                    dq = rr;
-                                } else if dq < -rr {
-                                    dq = -rr;
-                                }
+                                dq = dq.clamp(-rr, rr);
 
                                 dq >> (coeff_log2_denom - 5 - el_bit_depth)
                             };
