@@ -9,11 +9,11 @@ rust-version = "1.60.0"
 
 [dependencies]
 vapoursynth = { version = "0.4.0", features = ["vapoursynth-api-36", "vapoursynth-functions"] }
-image = "0.24.4"
+image = "0.24.5"
 itertools = "0.10.5"
-dolby_vision = "2.0.0"
-anyhow = "1.0.66"
-rayon = "1.5.3"
+dolby_vision = "2.1.0"
+anyhow = "1.0.68"
+rayon = "1.6.1"
 
 [lib]
 crate-type = ["cdylib"]
