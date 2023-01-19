@@ -94,6 +94,11 @@ impl<'core> Filter<'core> for MapNLQ<'core> {
         }
 
         let rpu = existing_rpu.unwrap();
+        let mapping = rpu.rpu_data_mapping.as_ref().unwrap();
+        let num_pivots = (mapping.nlq_num_pivots_minus2.unwrap() + 1) as usize;
+        assert!(num_pivots == 1);
+
+        let rpu_data_nlq = mapping.nlq.as_ref().unwrap();
 
         assert!(rpu.dovi_profile == 7);
 
@@ -107,7 +112,7 @@ impl<'core> Filter<'core> for MapNLQ<'core> {
 
         assert_eq!(el_frame.format().sample_type(), SampleType::Integer);
 
-        let out_bit_depth = rpu.header.vdr_bit_depth_minus_8 + 8;
+        let out_bit_depth = rpu.header.vdr_bit_depth_minus8 + 8;
         let el_bit_depth = rpu.header.el_bit_depth_minus8 + 8;
         let coeff_log2_denom = rpu.header.coefficient_log2_denom;
         let disable_residual_flag = rpu.header.disable_residual_flag;
@@ -135,20 +140,15 @@ impl<'core> Filter<'core> for MapNLQ<'core> {
             )?;
         }
 
-        let num_pivots = (rpu.header.nlq_num_pivots_minus2.unwrap() + 1) as usize;
-        assert!(num_pivots == 1);
+        let nlq_offsets = rpu_data_nlq.nlq_offset;
+        let hdr_in_max_int = rpu_data_nlq.vdr_in_max_int;
+        let hdr_in_max = rpu_data_nlq.vdr_in_max;
 
-        let rpu_data_nlq = rpu.rpu_data_nlq.as_ref().unwrap();
-        let nlq_offsets = &rpu_data_nlq.nlq_offset[0];
+        let linear_deadzone_slope_int = rpu_data_nlq.linear_deadzone_slope_int;
+        let linear_deadzone_slope = rpu_data_nlq.linear_deadzone_slope;
 
-        let hdr_in_max_int = rpu_data_nlq.vdr_in_max_int[0];
-        let hdr_in_max = rpu_data_nlq.vdr_in_max[0];
-
-        let linear_deadzone_slope_int = rpu_data_nlq.linear_deadzone_slope_int[0];
-        let linear_deadzone_slope = rpu_data_nlq.linear_deadzone_slope[0];
-
-        let linear_deadzone_threshold_int = rpu_data_nlq.linear_deadzone_threshold_int[0];
-        let linear_deadzone_threshold = rpu_data_nlq.linear_deadzone_threshold[0];
+        let linear_deadzone_threshold_int = rpu_data_nlq.linear_deadzone_threshold_int;
+        let linear_deadzone_threshold = rpu_data_nlq.linear_deadzone_threshold;
 
         let mut fp_hdr_in_max = [0_i64; 3];
         let mut fp_linear_deadzone_slope = [0_i64; 3];
