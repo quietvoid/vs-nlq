@@ -1,19 +1,17 @@
 [package]
 name = "vs-nlq"
-version = "1.1.0"
+version = "1.1.1"
 authors = ["quietvoid"]
 edition = "2021"
-rust-version = "1.61.0"
+rust-version = "1.70.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 vapoursynth = { version = "0.4.0", features = ["vapoursynth-api-36", "vapoursynth-functions"] }
-dolby_vision = "3.1.2"
-image = "0.24.6"
-itertools = "0.11.0"
-anyhow = "1.0.72"
-rayon = "1.7.0"
+dolby_vision = "3.2.0"
+itertools = "0.12.0"
+anyhow = "1.0.77"
 
 [lib]
 crate-type = ["cdylib"]

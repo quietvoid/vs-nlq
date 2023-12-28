@@ -1,7 +1,6 @@
 use anyhow::{bail, format_err, Error};
 use dolby_vision::rpu::dovi_rpu::DoviRpu;
 use itertools::Itertools;
-use rayon::prelude::*;
 
 use vapoursynth::core::CoreRef;
 use vapoursynth::plugins::*;
@@ -89,8 +88,8 @@ impl<'core> Filter<'core> for MapNLQ<'core> {
             None
         };
 
-        if parsed_rpu.is_some() {
-            existing_rpu.replace(parsed_rpu.as_ref().unwrap());
+        if let Some(rpu) = &parsed_rpu {
+            existing_rpu.replace(rpu);
         }
 
         let rpu = existing_rpu.unwrap();
@@ -180,9 +179,9 @@ impl<'core> Filter<'core> for MapNLQ<'core> {
                     let fp_in_max = fp_hdr_in_max[cmp];
 
                     bl_plane
-                        .par_iter()
-                        .zip(el_plane.par_iter())
-                        .zip(out_plane.into_par_iter())
+                        .iter()
+                        .zip(el_plane.iter())
+                        .zip(out_plane.iter_mut())
                         .for_each(|((bl_pixel, el_pixel), out_pixel)| {
                             let mut tmp = (*el_pixel as i64) - (nlq_offsets[cmp] as i64);
 
