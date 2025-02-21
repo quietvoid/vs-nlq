@@ -2,8 +2,8 @@
 name = "vs-nlq"
 version = "1.1.1"
 authors = ["quietvoid"]
-edition = "2021"
-rust-version = "1.70.0"
+edition = "2024"
+rust-version = "1.85.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -11,7 +11,7 @@ rust-version = "1.70.0"
 vapoursynth = { version = "0.4.0", features = ["vapoursynth-api-36", "vapoursynth-functions"] }
 dolby_vision = "3.3.1"
 itertools = "0.14.0"
-anyhow = "1.0.95"
+anyhow = "1.0.96"
 
 [lib]
 crate-type = ["cdylib"]

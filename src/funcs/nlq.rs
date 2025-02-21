@@ -1,4 +1,4 @@
-use anyhow::{bail, format_err, Error};
+use anyhow::{Error, bail, format_err};
 use dolby_vision::rpu::dovi_rpu::DoviRpu;
 use itertools::Itertools;
 
