@@ -14,27 +14,21 @@ pub struct MapNLQ<'core> {
 }
 
 impl<'core> Filter<'core> for MapNLQ<'core> {
-    fn video_info(&self, _api: API, _core: CoreRef<'core>) -> Vec<VideoInfo<'core>> {
+    fn video_info(&self, _api: API, core: CoreRef<'core>) -> Vec<VideoInfo<'core>> {
         let info = self.bl.info();
-        let format = match info.format {
-            Property::Variable => unreachable!(),
-            Property::Constant(format) => format,
-        };
+        let format = info.format;
 
         // Output the same format as source
         vec![VideoInfo {
-            format: Property::Constant(
-                _core
-                    .register_format(
-                        ColorFamily::YUV,
-                        format.sample_type(),
-                        12,
-                        format.sub_sampling_w(),
-                        format.sub_sampling_h(),
-                    )
-                    .unwrap(),
-            ),
-            flags: info.flags,
+            format: core
+                .register_format(
+                    ColorFamily::YUV,
+                    format.sample_type(),
+                    12,
+                    format.sub_sampling_w(),
+                    format.sub_sampling_h(),
+                )
+                .unwrap(),
             framerate: info.framerate,
             num_frames: info.num_frames,
             resolution: info.resolution,

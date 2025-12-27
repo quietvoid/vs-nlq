@@ -29,11 +29,7 @@ make_filter_function! {
 
             let res = dolby_vision::rpu::utils::parse_rpu_file(rpu_path);
 
-            if let Ok(rpus) = res {
-                Some(rpus)
-            } else {
-                None
-            }
+            res.ok()
         } else {
             None
         };
